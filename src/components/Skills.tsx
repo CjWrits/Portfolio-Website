@@ -49,13 +49,13 @@ const Skills = () => {
 
   return (
     <section id="skills" ref={ref} className="min-h-screen flex items-center py-32">
-      <div className="max-w-6xl mx-auto px-8 w-full">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="mb-20"
         >
-          <h2 className="text-7xl font-black text-white mb-8">SKILLS</h2>
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 sm:mb-8">SKILLS</h2>
         </motion.div>
 
         <div className="space-y-4">
@@ -67,8 +67,8 @@ const Skills = () => {
             >
               <div className="flex items-center gap-8 py-6 border-b border-gray-800 hover:border-orange-500 transition-all">
                 <span className="text-orange-500 font-mono text-sm w-12">{String(i + 1).padStart(2, '0')}</span>
-                <span className="text-4xl font-bold text-gray-300 group-hover:text-white transition-colors flex-1">{skill.name}</span>
-                <span className="text-orange-500 font-mono text-lg">{skill.count} projects</span>
+                <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-300 group-hover:text-white transition-colors flex-1">{skill.name}</span>
+                <span className="text-sm sm:text-base md:text-lg text-orange-500 font-mono">{skill.count} projects</span>
                 <div className="w-24 h-px bg-gray-800 group-hover:bg-orange-500/20 transition-all" />
               </div>
             </div>

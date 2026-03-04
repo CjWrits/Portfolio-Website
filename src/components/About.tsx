@@ -52,19 +52,19 @@ const About = () => {
         <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="mb-20"
         >
           <div className="flex items-center gap-8 mb-8">
-            <h2 className="text-8xl font-black text-white">ABOUT</h2>
+            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white">ABOUT</h2>
             <div ref={lineRef} className="flex-1 h-1 bg-gradient-to-r from-orange-500 via-yellow-500 to-transparent origin-left" />
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <div ref={textRef} className="space-y-8">
             <p className="text-xl text-gray-300 leading-relaxed font-medium">
               Specialized in building scalable web applications with the <span className="text-orange-500 font-bold">MERN stack</span>. From concept to deployment, I handle the complete development lifecycle.

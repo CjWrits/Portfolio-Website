@@ -35,9 +35,9 @@ const Hero = () => {
     <section ref={containerRef} className="relative h-screen flex items-center justify-center overflow-hidden">
       <BlinkingAsciiDots backgroundColor="#0a0a0a" textColor="255, 107, 53" density={1.2} animationSpeed={0.5} removeWaveLine={true} />
       
-      <div className="max-w-7xl mx-auto px-8 z-10">
-        <div ref={textRef} className="mb-12">
-          <div className="text-8xl md:text-9xl font-black tracking-tighter mb-4 flex flex-wrap">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 z-10">
+        <div ref={textRef} className="mb-8 sm:mb-12">
+          <div className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 flex flex-wrap justify-center sm:justify-start">
             {name.split('').map((char, i) => (
               <span
                 key={i}
@@ -59,15 +59,15 @@ const Hero = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1 }}
-          className="space-y-4 mb-12"
+          className="space-y-3 sm:space-y-4 mb-8 sm:mb-12"
         >
           <div className="flex items-center gap-4">
             <div className="w-16 h-px bg-gradient-to-r from-orange-500 to-transparent" />
-            <p className="text-xl text-gray-400 font-light tracking-widest">FULL-STACK DEVELOPER</p>
+            <p className="text-base sm:text-xl text-gray-400 font-light tracking-widest">FULL-STACK DEVELOPER</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="w-16 h-px bg-gradient-to-r from-yellow-500 to-transparent" />
-            <p className="text-xl text-gray-400 font-light tracking-widest">AVAILABLE FOR WORK</p>
+            <p className="text-base sm:text-xl text-gray-400 font-light tracking-widest">AVAILABLE FOR WORK</p>
           </div>
         </motion.div>
 
@@ -75,7 +75,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="flex gap-6"
+          className="flex gap-4 sm:gap-6 justify-center sm:justify-start"
         >
           <a
             href="https://github.com/CjWrits"
