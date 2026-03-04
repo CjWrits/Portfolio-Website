@@ -84,7 +84,7 @@ const About = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                ref={(el) => (statsRef.current[i] = el)}
+              ref={(el) => { statsRef.current[i] = el; }}
                 className="relative group transition-all duration-300"
               >
                 <div className="relative flex justify-between items-center border-b-2 border-gray-800 group-hover:border-orange-500 pb-6 transition-all">

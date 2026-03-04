@@ -71,7 +71,7 @@ const Education = () => {
         </motion.h2>
 
         <div
-          ref={(el) => (cardsRef.current[0] = el)}
+          ref={(el) => { cardsRef.current[0] = el; }}
           className="mb-16 p-12 relative"
           style={{ perspective: '1000px' }}
         >
@@ -97,7 +97,7 @@ const Education = () => {
           {certifications.map((cert, i) => (
             <div
               key={i}
-              ref={(el) => (cardsRef.current[i + 1] = el)}
+              ref={(el) => { cardsRef.current[i + 1] = el; }}
               className="relative group"
               style={{ perspective: '1000px' }}
             >

@@ -111,7 +111,7 @@ const Experience = () => {
             {timeline.map((item, i) => (
               <div
                 key={i}
-                ref={(el) => (itemsRef.current[i] = el)}
+                ref={(el) => { itemsRef.current[i] = el; }}
                 className={`flex ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}
               >
                 <div className={`w-5/12 ${i % 2 === 0 ? 'text-right pr-12' : 'text-left pl-12'}`}>
