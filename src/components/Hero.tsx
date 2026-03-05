@@ -37,7 +37,7 @@ const Hero = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-8 z-10">
         <div ref={textRef} className="mb-8 sm:mb-12">
-          <div className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 flex flex-wrap justify-center sm:justify-start">
+          <div className="text-4xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 flex flex-wrap justify-center sm:justify-start">
             {name.split('').map((char, i) => (
               <span
                 key={i}
