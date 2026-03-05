@@ -84,24 +84,29 @@ const Projects = () => {
           {projects.map((project, i) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.2 }}
-              className="group border border-gray-800 hover:border-orange-500 p-6 transition-all"
+              initial={{ opacity: 0, y: 30, rotateX: -20 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="group relative border border-gray-800 hover:border-orange-500 p-6 transition-all overflow-hidden"
+              style={{ perspective: '1000px' }}
             >
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white">{project.title}</h3>
-                <a
-                  href={`https://github.com/CjWrits/${project.repo}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-orange-500 hover:text-orange-400 transition-colors"
-                >
-                  <FaGithub size={24} />
-                </a>
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/0 via-orange-500/10 to-yellow-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              <div className="relative">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white group-hover:text-orange-400 transition-colors group-hover:scale-105 inline-block">{project.title}</h3>
+                  <a
+                    href={`https://github.com/CjWrits/${project.repo}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-orange-500 hover:text-orange-400 transition-all hover:scale-125 hover:rotate-12"
+                  >
+                    <FaGithub size={24} />
+                  </a>
+                </div>
+                <p className="text-sm sm:text-base text-gray-400 mb-4 group-hover:text-gray-300 transition-colors">{project.desc}</p>
+                <p className="text-gray-600 text-sm group-hover:text-orange-500/70 transition-colors">{project.tech}</p>
               </div>
-              <p className="text-sm sm:text-base text-gray-400 mb-4">{project.desc}</p>
-              <p className="text-gray-600 text-sm">{project.tech}</p>
             </motion.div>
           ))}
         </div>

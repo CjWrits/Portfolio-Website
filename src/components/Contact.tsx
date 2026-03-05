@@ -47,13 +47,15 @@ const Contact = () => {
               {contactInfo.map((info, i) => (
                 <motion.div
                   key={info.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  initial={{ opacity: 0, x: -20, rotateY: -45 }}
+                  animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
                   transition={{ delay: 0.4 + i * 0.1 }}
                   className="flex items-center gap-4 group"
+                  style={{ perspective: '1000px' }}
                 >
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-full flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
-                    {info.icon}
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-full flex items-center justify-center text-orange-500 group-hover:scale-110 transition-all group-hover:rotate-12">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-20 rounded-full blur transition-opacity" />
+                    <div className="relative">{info.icon}</div>
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">{info.label}</p>
@@ -76,47 +78,51 @@ const Contact = () => {
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.7 + i * 0.1 }}
-                  className="w-12 h-12 sm:w-14 sm:h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center text-white hover:text-orange-500 transition-all hover:scale-110"
+                  initial={{ opacity: 0, scale: 0, rotateZ: -180 }}
+                  animate={isInView ? { opacity: 1, scale: 1, rotateZ: 0 } : {}}
+                  transition={{ delay: 0.7 + i * 0.1, type: 'spring', stiffness: 200 }}
+                  className="relative w-12 h-12 sm:w-14 sm:h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center text-white hover:text-orange-500 transition-all hover:scale-110 hover:rotate-12 overflow-hidden"
                 >
-                  {social.icon}
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 hover:opacity-10 transition-opacity" />
+                  <div className="relative">{social.icon}</div>
                 </motion.a>
               ))}
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, x: 50, rotateY: 45 }}
+            animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ delay: 0.2 }}
             className="relative"
+            style={{ perspective: '1000px' }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-2xl blur-xl" />
-            <div className="relative bg-gray-900/50 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-gray-800">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-2xl blur-xl animate-pulse" />
+            <div className="relative bg-gray-900/50 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-gray-800 hover:border-orange-500/50 transition-all hover:scale-105">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent" />
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Send a Message</h3>
               <form className="space-y-4 sm:space-y-6">
                 <input
                   type="text"
                   placeholder="Your Name"
-                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none transition-colors text-white text-sm sm:text-base"
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none transition-all text-white text-sm sm:text-base hover:border-orange-500/50 focus:scale-105"
                 />
                 <input
                   type="email"
                   placeholder="Your Email"
-                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none transition-colors text-white text-sm sm:text-base"
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none transition-all text-white text-sm sm:text-base hover:border-orange-500/50 focus:scale-105"
                 />
                 <textarea
                   placeholder="Your Message"
                   rows={5}
-                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none resize-none transition-colors text-white text-sm sm:text-base"
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none resize-none transition-all text-white text-sm sm:text-base hover:border-orange-500/50 focus:scale-105"
                 />
                 <button
                   type="submit"
-                  className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg hover:scale-105 transition-transform font-bold text-black text-sm sm:text-base"
+                  className="relative w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg hover:scale-105 transition-all font-bold text-black text-sm sm:text-base overflow-hidden group"
                 >
-                  SEND MESSAGE
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <span className="relative">SEND MESSAGE</span>
                 </button>
               </form>
             </div>

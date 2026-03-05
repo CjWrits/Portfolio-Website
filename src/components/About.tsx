@@ -43,6 +43,26 @@ const About = () => {
         }
       );
     }
+
+    statsRef.current.forEach((stat, i) => {
+      if (stat) {
+        gsap.fromTo(stat,
+          { x: 100, opacity: 0, rotateY: 90 },
+          {
+            x: 0,
+            opacity: 1,
+            rotateY: 0,
+            scrollTrigger: {
+              trigger: stat,
+              start: 'top 85%',
+              end: 'top 60%',
+              scrub: true,
+            },
+            delay: i * 0.1,
+          }
+        );
+      }
+    });
   }, []);
 
   return (
@@ -86,10 +106,12 @@ const About = () => {
                 key={i}
               ref={(el) => { statsRef.current[i] = el; }}
                 className="relative group transition-all duration-300"
+                style={{ perspective: '1000px' }}
               >
-                <div className="relative flex justify-between items-center border-b-2 border-gray-800 group-hover:border-orange-500 pb-4 sm:pb-6 transition-all">
-                  <span className="text-gray-400 text-xs sm:text-sm md:text-base tracking-widest font-bold">{item.label}</span>
-                  <span className="text-3xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+                <div className="relative flex justify-between items-center border-b-2 border-gray-800 group-hover:border-orange-500 pb-4 sm:pb-6 transition-all group-hover:scale-105">
+                  <span className="text-gray-400 text-xs sm:text-sm md:text-base tracking-widest font-bold group-hover:text-orange-400 transition-colors">{item.label}</span>
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform inline-block">
                     {item.value}
                   </span>
                 </div>

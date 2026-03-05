@@ -11,27 +11,29 @@ const Education = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    cardsRef.current.forEach((card) => {
+    cardsRef.current.forEach((card, i) => {
       if (card) {
         gsap.fromTo(card,
-          { rotateY: 90, opacity: 0 },
+          { rotateY: 90, opacity: 0, scale: 0.8 },
           {
             rotateY: 0,
             opacity: 1,
+            scale: 1,
             scrollTrigger: {
               trigger: card,
               start: 'top 80%',
               end: 'top 50%',
               scrub: true,
             },
+            delay: i * 0.05,
           }
         );
 
         card.addEventListener('mouseenter', () => {
-          gsap.to(card, { scale: 1.05, duration: 0.3 });
+          gsap.to(card, { scale: 1.05, rotateY: 5, duration: 0.3 });
         });
         card.addEventListener('mouseleave', () => {
-          gsap.to(card, { scale: 1, duration: 0.3 });
+          gsap.to(card, { scale: 1, rotateY: 0, duration: 0.3 });
         });
       }
     });
@@ -102,10 +104,12 @@ const Education = () => {
               style={{ perspective: '1000px' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-yellow-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative p-6 sm:p-8 border border-gray-800 group-hover:border-orange-500 transition-all">
-                <div className="text-orange-500 font-mono text-xs sm:text-sm mb-3 sm:mb-4">{cert.year}</div>
-                <h4 className="text-base sm:text-lg md:text-xl font-bold text-white mb-2 sm:mb-3">{cert.name}</h4>
-                <p className="text-sm sm:text-base text-gray-400">{cert.org}</p>
+              <div className="absolute inset-0 border-2 border-orange-500/0 group-hover:border-orange-500/50 transition-all duration-500 animate-pulse" />
+              <div className="relative p-6 sm:p-8 border border-gray-800 group-hover:border-orange-500 transition-all group-hover:scale-105">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="text-orange-500 font-mono text-xs sm:text-sm mb-3 sm:mb-4 group-hover:text-yellow-500 transition-colors group-hover:scale-110 inline-block">{cert.year}</div>
+                <h4 className="text-base sm:text-lg md:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-orange-400 transition-colors">{cert.name}</h4>
+                <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors">{cert.org}</p>
               </div>
             </div>
           ))}

@@ -11,19 +11,21 @@ const Skills = () => {
   const skillsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    skillsRef.current.forEach((skill) => {
+    skillsRef.current.forEach((skill, i) => {
       if (skill) {
         gsap.fromTo(skill,
-          { x: -100, opacity: 0 },
+          { x: -100, opacity: 0, rotateX: -45 },
           {
             x: 0,
             opacity: 1,
+            rotateX: 0,
             scrollTrigger: {
               trigger: skill,
               start: 'top 90%',
               end: 'top 60%',
               scrub: true,
             },
+            delay: i * 0.05,
           }
         );
       }
@@ -64,12 +66,14 @@ const Skills = () => {
               key={skill.name}
               ref={(el) => { skillsRef.current[i] = el; }}
               className="group"
+              style={{ perspective: '1000px' }}
             >
-              <div className="flex items-center gap-8 py-6 border-b border-gray-800 hover:border-orange-500 transition-all">
-                <span className="text-orange-500 font-mono text-sm w-12">{String(i + 1).padStart(2, '0')}</span>
-                <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-300 group-hover:text-white transition-colors flex-1">{skill.name}</span>
-                <span className="text-sm sm:text-base md:text-lg text-orange-500 font-mono">{skill.count} projects</span>
-                <div className="w-24 h-px bg-gray-800 group-hover:bg-orange-500/20 transition-all" />
+              <div className="relative flex items-center gap-8 py-6 border-b border-gray-800 hover:border-orange-500 transition-all hover:scale-105 hover:translate-x-4">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="relative text-orange-500 font-mono text-sm w-12 group-hover:scale-125 transition-transform">{String(i + 1).padStart(2, '0')}</span>
+                <span className="relative text-2xl sm:text-3xl md:text-4xl font-bold text-gray-300 group-hover:text-white transition-colors flex-1 group-hover:tracking-wider">{skill.name}</span>
+                <span className="relative text-sm sm:text-base md:text-lg text-orange-500 font-mono group-hover:scale-110 transition-transform">{skill.count} projects</span>
+                <div className="relative w-24 h-px bg-gray-800 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-yellow-500 transition-all group-hover:w-32" />
               </div>
             </div>
           ))}

@@ -14,10 +14,11 @@ const Experience = () => {
     itemsRef.current.forEach((item, i) => {
       if (item) {
         gsap.fromTo(item,
-          { x: i % 2 === 0 ? -100 : 100, opacity: 0 },
+          { x: i % 2 === 0 ? -100 : 100, opacity: 0, rotateY: i % 2 === 0 ? -45 : 45 },
           {
             x: 0,
             opacity: 1,
+            rotateY: 0,
             scrollTrigger: {
               trigger: item,
               start: 'top 80%',
@@ -116,13 +117,16 @@ const Experience = () => {
                 className={`flex md:${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}
               >
                 <div className={`w-full md:w-5/12 pl-12 md:pl-0 ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <div className="relative">
-                    <div className={`absolute top-2 -left-[2.6rem] md:top-4 md:${i % 2 === 0 ? '-right-[3.25rem] md:left-auto' : '-left-[3.25rem]'} w-3 h-3 md:w-4 md:h-4 bg-orange-500 rounded-full border-2 md:border-4 border-black`} />
-                    
-                    <p className="text-orange-500 text-xs sm:text-sm font-mono mb-2">{item.date}</p>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-sm sm:text-base text-gray-400 font-semibold mb-2">{item.company}</p>
-                    <p className="text-xs sm:text-sm text-gray-500">{item.desc}</p>
+                  <div className="relative group" style={{ perspective: '1000px' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+                    <div className="relative p-6 border border-gray-800/50 group-hover:border-orange-500 transition-all group-hover:scale-105 bg-black/30">
+                      <div className={`absolute top-2 -left-[2.6rem] md:top-4 md:${i % 2 === 0 ? '-right-[3.25rem] md:left-auto' : '-left-[3.25rem]'} w-3 h-3 md:w-4 md:h-4 bg-orange-500 rounded-full border-2 md:border-4 border-black animate-pulse`} />
+                      
+                      <p className="text-orange-500 text-xs sm:text-sm font-mono mb-2 group-hover:text-yellow-500 transition-colors">{item.date}</p>
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 group-hover:scale-105 transition-transform inline-block">{item.title}</h3>
+                      <p className="text-sm sm:text-base text-gray-400 font-semibold mb-2 group-hover:text-orange-400 transition-colors">{item.company}</p>
+                      <p className="text-xs sm:text-sm text-gray-500 group-hover:text-gray-400 transition-colors">{item.desc}</p>
+                    </div>
                   </div>
                 </div>
               </div>
