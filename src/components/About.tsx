@@ -65,21 +65,21 @@ const About = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          <div ref={textRef} className="space-y-8">
-            <p className="text-xl text-gray-300 leading-relaxed font-medium">
+          <div ref={textRef} className="space-y-6 sm:space-y-8">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed font-medium">
               Specialized in building scalable web applications with the <span className="text-orange-500 font-bold">MERN stack</span>. From concept to deployment, I handle the complete development lifecycle.
             </p>
             
-            <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/30">
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-              <p className="text-lg text-white font-bold">Currently available for new opportunities</p>
+            <div className="flex items-center gap-3 sm:gap-4 p-4 sm:p-6 bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/30">
+              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse flex-shrink-0" />
+              <p className="text-sm sm:text-base md:text-lg text-white font-bold">Currently available for new opportunities</p>
             </div>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {[
               { label: 'EXPERIENCE', value: '2+ Years' },
-              { label: 'PROJECTS', value: '10+ Completed' },
+              { label: 'PROJECTS', value: '20+ Completed' },
               { label: 'TECHNOLOGIES', value: '15+ Mastered' },
             ].map((item, i) => (
               <div
@@ -87,9 +87,9 @@ const About = () => {
               ref={(el) => { statsRef.current[i] = el; }}
                 className="relative group transition-all duration-300"
               >
-                <div className="relative flex justify-between items-center border-b-2 border-gray-800 group-hover:border-orange-500 pb-6 transition-all">
-                  <span className="text-gray-400 text-base tracking-widest font-bold">{item.label}</span>
-                  <span className="text-5xl font-black bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                <div className="relative flex justify-between items-center border-b-2 border-gray-800 group-hover:border-orange-500 pb-4 sm:pb-6 transition-all">
+                  <span className="text-gray-400 text-xs sm:text-sm md:text-base tracking-widest font-bold">{item.label}</span>
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">
                     {item.value}
                   </span>
                 </div>

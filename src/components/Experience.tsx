@@ -94,34 +94,35 @@ const Experience = () => {
   ];
 
   return (
-    <section id="timeline" ref={ref} className="min-h-screen flex items-center py-32">
-      <div className="max-w-6xl mx-auto px-8 w-full">
+    <section id="timeline" ref={ref} className="min-h-screen flex items-center py-20 sm:py-32">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-7xl font-black text-white mb-32"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-16 sm:mb-24 lg:mb-32"
         >
           TIMELINE
         </motion.h2>
 
         <div className="relative">
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500 via-yellow-500 to-transparent" />
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500 via-yellow-500 to-transparent" />
+          <div className="md:hidden absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500 via-yellow-500 to-transparent" />
 
-          <div className="space-y-24">
+          <div className="space-y-12 sm:space-y-16 md:space-y-24">
             {timeline.map((item, i) => (
               <div
                 key={i}
                 ref={(el) => { itemsRef.current[i] = el; }}
-                className={`flex ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}
+                className={`flex md:${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}
               >
-                <div className={`w-5/12 ${i % 2 === 0 ? 'text-right pr-12' : 'text-left pl-12'}`}>
+                <div className={`w-full md:w-5/12 pl-12 md:pl-0 ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
                   <div className="relative">
-                    <div className={`absolute top-4 ${i % 2 === 0 ? '-right-[3.25rem]' : '-left-[3.25rem]'} w-4 h-4 bg-orange-500 rounded-full border-4 border-black`} />
+                    <div className={`absolute top-2 -left-[2.6rem] md:top-4 md:${i % 2 === 0 ? '-right-[3.25rem] md:left-auto' : '-left-[3.25rem]'} w-3 h-3 md:w-4 md:h-4 bg-orange-500 rounded-full border-2 md:border-4 border-black`} />
                     
-                    <p className="text-orange-500 text-sm font-mono mb-2">{item.date}</p>
-                    <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-gray-400 font-semibold mb-2">{item.company}</p>
-                    <p className="text-gray-500 text-sm">{item.desc}</p>
+                    <p className="text-orange-500 text-xs sm:text-sm font-mono mb-2">{item.date}</p>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2">{item.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-400 font-semibold mb-2">{item.company}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">{item.desc}</p>
                   </div>
                 </div>
               </div>

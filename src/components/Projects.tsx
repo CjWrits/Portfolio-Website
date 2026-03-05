@@ -67,12 +67,6 @@ const Projects = () => {
       tech: 'React • TypeScript • Leaflet',
       repo: 'civic-reporter',
     },
-    {
-      title: 'Portfolio Website',
-      desc: 'Personal portfolio showcase',
-      tech: 'HTML • CSS • JavaScript',
-      repo: 'Portfolio-Website',
-    },
   ];
 
   return (
