@@ -36,7 +36,7 @@ const Navbar = () => {
         >
           <span className="relative">
             <span className="text-orange-500">C</span>
-            <span className="text-yellow-500">G</span>
+            <span className="text-yellow-500">J</span>
             <motion.span
               className="absolute -inset-3 bg-gradient-to-r from-orange-500/30 to-yellow-500/30 rounded-lg blur-xl"
               initial={{ opacity: 0 }}

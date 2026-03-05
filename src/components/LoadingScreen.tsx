@@ -38,7 +38,7 @@ const LoadingScreen = () => {
             >
               <h1 className="text-8xl font-black mb-4">
                 <span className="text-orange-500">C</span>
-                <span className="text-yellow-500">G</span>
+                <span className="text-yellow-500">J</span>
               </h1>
               <p className="text-gray-400 text-sm tracking-widest">LOADING PORTFOLIO</p>
             </motion.div>
