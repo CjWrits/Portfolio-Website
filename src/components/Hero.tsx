@@ -58,8 +58,8 @@ const Hero = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-8 z-10">
-        <div ref={textRef} className="mb-8 sm:mb-12">
-          <div className="text-4xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 flex flex-wrap justify-center sm:justify-start">
+        <div ref={textRef} className="mb-6 sm:mb-8 md:mb-12">
+          <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter mb-4 flex flex-wrap justify-center sm:justify-start">
             {name.split('').map((char, i) => (
               <span
                 key={i}
@@ -78,21 +78,21 @@ const Hero = () => {
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.5, type: 'spring', stiffness: 50 }}
-          className="space-y-4 mb-12"
+          className="space-y-3 sm:space-y-4 mb-8 sm:mb-12"
         >
           <motion.div 
-            className="inline-block px-6 py-3 bg-[#6366f1] border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(139,92,246,1)]"
+            className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-[#6366f1] border-2 sm:border-4 border-white/20 shadow-[6px_6px_0px_0px_rgba(139,92,246,1)] sm:shadow-[8px_8px_0px_0px_rgba(139,92,246,1)]"
             whileHover={{ scale: 1.08, rotate: -2, y: -4 }}
             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
           >
-            <p className="text-xl sm:text-2xl text-white font-black tracking-widest">FULL-STACK DEVELOPER</p>
+            <p className="text-base sm:text-xl lg:text-2xl text-white font-black tracking-widest">FULL-STACK DEVELOPER</p>
           </motion.div>
           <motion.div 
-            className="inline-block px-6 py-3 bg-[#8b5cf6] border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(236,72,153,1)] ml-8"
+            className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-[#8b5cf6] border-2 sm:border-4 border-white/20 shadow-[6px_6px_0px_0px_rgba(236,72,153,1)] sm:shadow-[8px_8px_0px_0px_rgba(236,72,153,1)] ml-0 sm:ml-8"
             whileHover={{ scale: 1.08, rotate: 2, y: -4 }}
             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
           >
-            <p className="text-xl sm:text-2xl text-white font-black tracking-widest">AVAILABLE FOR WORK</p>
+            <p className="text-base sm:text-xl lg:text-2xl text-white font-black tracking-widest">AVAILABLE FOR WORK</p>
           </motion.div>
         </motion.div>
 
@@ -100,7 +100,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 2, type: 'spring', stiffness: 200 }}
-          className="flex gap-6 justify-center sm:justify-start"
+          className="flex gap-3 sm:gap-4 md:gap-6 justify-center sm:justify-start flex-wrap"
         >
           {[
             { icon: FaGithub, href: 'https://github.com/CjWrits', color: '#6366f1' },
@@ -115,7 +115,7 @@ const Hero = () => {
               rel={item.icon !== FaEnvelope && item.icon !== FaPhone ? 'noopener noreferrer' : undefined}
               onMouseEnter={playHoverSound}
               onClick={playClickSound}
-              className="w-16 h-16 border-4 border-white/20 flex items-center justify-center transition-all"
+              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 border-2 sm:border-4 border-white/20 flex items-center justify-center transition-all"
               style={{ backgroundColor: item.color }}
               whileHover={{ 
                 rotate: 360, 
@@ -125,7 +125,7 @@ const Hero = () => {
               }}
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
-              <item.icon size={28} className="text-white" />
+              <item.icon size={20} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
             </motion.a>
           ))}
         </motion.div>

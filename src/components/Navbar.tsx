@@ -23,17 +23,17 @@ const Navbar = () => {
         scrolled ? 'bg-[#1a1a3e] shadow-[0_8px_0px_0px_rgba(99,102,241,0.5)]' : 'bg-[#1a1a3e]/80 backdrop-blur-sm'
       } border-b-4 border-[#6366f1]`}
     >
-      <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex justify-between items-center">
         <motion.a 
           href="#home" 
-          className="text-3xl font-black text-white hover:scale-110 transition-transform"
+          className="text-2xl sm:text-3xl font-black text-white hover:scale-110 transition-transform"
           whileHover={{ rotate: [0, -10, 10, -10, 0] }}
           transition={{ duration: 0.5 }}
         >
           CJ
         </motion.a>
         
-        <div className="hidden md:flex gap-6">
+        <div className="hidden md:flex gap-4 lg:gap-6">
           {navItems.map((item, i) => (
             <motion.a
               key={item}
@@ -43,7 +43,7 @@ const Navbar = () => {
               transition={{ delay: i * 0.1, type: 'spring', stiffness: 200, damping: 20 }}
               onMouseEnter={playHoverSound}
               onClick={playClickSound}
-              className="relative text-white hover:text-[#6366f1] transition-colors duration-300 text-sm tracking-widest font-bold px-4 py-2 border-2 border-white/20 hover:border-[#6366f1] hover:shadow-[4px_4px_0px_0px_rgba(99,102,241,1)] transition-all duration-300"
+              className="relative text-white hover:text-[#6366f1] transition-colors duration-300 text-xs lg:text-sm tracking-widest font-bold px-3 lg:px-4 py-2 border-2 border-white/20 hover:border-[#6366f1] hover:shadow-[4px_4px_0px_0px_rgba(99,102,241,1)] transition-all duration-300"
               whileHover={{ y: -4, scale: 1.05 }}
             >
               {item.toUpperCase()}
