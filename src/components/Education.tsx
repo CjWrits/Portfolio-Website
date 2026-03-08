@@ -14,27 +14,21 @@ const Education = () => {
     cardsRef.current.forEach((card, i) => {
       if (card) {
         gsap.fromTo(card,
-          { rotateY: 90, opacity: 0, scale: 0.8 },
+          { y: 100, opacity: 0, scale: 0.8 },
           {
-            rotateY: 0,
+            y: 0,
             opacity: 1,
             scale: 1,
             scrollTrigger: {
               trigger: card,
               start: 'top 80%',
               end: 'top 50%',
-              scrub: true,
+              scrub: 2,
             },
             delay: i * 0.05,
+            ease: 'power3.out',
           }
         );
-
-        card.addEventListener('mouseenter', () => {
-          gsap.to(card, { scale: 1.05, rotateY: 5, duration: 0.3 });
-        });
-        card.addEventListener('mouseleave', () => {
-          gsap.to(card, { scale: 1, rotateY: 0, duration: 0.3 });
-        });
       }
     });
   }, []);
@@ -47,71 +41,66 @@ const Education = () => {
   };
 
   const certifications = [
-    { name: 'JavaScript Certification', org: 'HackerRank', year: '2024' },
-    { name: 'Responsive Web Design', org: 'freeCodeCamp', year: '2024' },
-    { name: 'Introduction to Cybersecurity', org: 'Cisco', year: '2024' },
-    { name: 'ISC2 Candidate', org: 'ISC2', year: '2024' },
-    { name: 'IBM Z Day 2025 – Security', org: 'IBM', year: '2025' },
-    { name: 'Linux Unhatched', org: 'Cisco', year: '2024' },
-    { name: 'C++ Programming', org: 'Saylor Academy', year: '2024' },
-    { name: 'Ethical Hacking Workshop', org: 'Workshop', year: '2024' },
+    { name: 'JavaScript Certification', org: 'HackerRank', year: '2024', color: '#6366f1' },
+    { name: 'Responsive Web Design', org: 'freeCodeCamp', year: '2024', color: '#8b5cf6' },
+    { name: 'Introduction to Cybersecurity', org: 'Cisco', year: '2024', color: '#ec4899' },
+    { name: 'ISC2 Candidate', org: 'ISC2', year: '2024', color: '#f59e0b' },
+    { name: 'IBM Z Day 2025 – Security', org: 'IBM', year: '2025', color: '#10b981' },
+    { name: 'Linux Unhatched', org: 'Cisco', year: '2024', color: '#06b6d4' },
+    { name: 'C++ Programming', org: 'Saylor Academy', year: '2024', color: '#6366f1' },
+    { name: 'Ethical Hacking Workshop', org: 'Workshop', year: '2024', color: '#8b5cf6' },
   ];
 
   return (
-    <section id="education" ref={ref} className="min-h-screen flex items-center py-20 sm:py-32 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full relative z-10">
+    <section id="education" ref={ref} className="min-h-screen flex items-center py-32 bg-[#0f0f23]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-12 sm:mb-16 lg:mb-20"
+          transition={{ type: 'spring', stiffness: 100 }}
+          className="text-7xl font-black text-white mb-20"
+          style={{ textShadow: '6px 6px 0px #6366f1' }}
         >
           EDUCATION
         </motion.h2>
 
-        <div
+        <motion.div
           ref={(el) => { cardsRef.current[0] = el; }}
-          className="mb-12 sm:mb-16 p-6 sm:p-8 md:p-12 relative"
-          style={{ perspective: '1000px' }}
+          className="mb-16 p-8 bg-[#6366f1] border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(139,92,246,0.5)]"
+          whileHover={{ scale: 1.04, rotate: -1, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 blur-xl" />
-          <div className="relative border-l-4 border-orange-500 pl-4 sm:pl-6 md:pl-8">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">{education.degree}</h3>
-            <p className="text-lg sm:text-xl md:text-2xl text-orange-500 mb-3 sm:mb-4">{education.field}</p>
-            <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-2">{education.university}</p>
-            <p className="text-sm sm:text-base text-gray-500 font-mono">{education.period}</p>
+          <div className="border-l-8 border-white pl-6">
+            <h3 className="text-4xl font-black text-white mb-2">{education.degree}</h3>
+            <p className="text-2xl text-white/90 font-bold mb-4">{education.field}</p>
+            <p className="text-xl text-white/80 font-bold mb-2">{education.university}</p>
+            <p className="text-lg text-white font-black">{education.period}</p>
           </div>
-        </div>
+        </motion.div>
 
         <motion.h3
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ delay: 0.3 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 sm:mb-12"
+          transition={{ delay: 0.3, type: 'spring' }}
+          className="text-4xl font-black text-white mb-12"
         >
           CERTIFICATIONS
         </motion.h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {certifications.map((cert, i) => (
-            <div
+            <motion.div
               key={i}
               ref={(el) => { cardsRef.current[i + 1] = el; }}
-              className="relative group"
-              style={{ perspective: '1000px' }}
+              className="p-6 border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(99,102,241,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(99,102,241,0.5)] transition-all duration-500 cursor-pointer"
+              style={{ backgroundColor: cert.color }}
+              whileHover={{ scale: 1.08, rotate: Math.random() > 0.5 ? 3 : -3, y: -6 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-yellow-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute inset-0 border-2 border-orange-500/0 group-hover:border-orange-500/50 transition-all duration-500 animate-pulse" />
-              <div className="relative p-6 sm:p-8 border border-gray-800 group-hover:border-orange-500 transition-all group-hover:scale-105">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="text-orange-500 font-mono text-xs sm:text-sm mb-3 sm:mb-4 group-hover:text-yellow-500 transition-colors group-hover:scale-110 inline-block">{cert.year}</div>
-                <h4 className="text-base sm:text-lg md:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-orange-400 transition-colors">{cert.name}</h4>
-                <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors">{cert.org}</p>
-              </div>
-            </div>
+              <div className="text-white font-black text-sm mb-4 tracking-wider">{cert.year}</div>
+              <h4 className="text-lg font-black text-white mb-3">{cert.name}</h4>
+              <p className="text-base text-white/90 font-bold">{cert.org}</p>
+            </motion.div>
           ))}
         </div>
       </div>

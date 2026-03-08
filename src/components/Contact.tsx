@@ -1,131 +1,134 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { useSoundEffects } from '../hooks/useSoundEffects';
 
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { playHoverSound, playClickSound, playSuccessSound } = useSoundEffects();
 
   const contactInfo = [
-    { icon: <FaEnvelope size={24} />, label: 'Email', value: 'cjwrits@gmail.com', link: 'mailto:cjwrits@gmail.com' },
-    { icon: <FaPhone size={24} />, label: 'Phone', value: '+91 78789 39493', link: 'tel:+917878939493' },
-    { icon: <FaMapMarkerAlt size={24} />, label: 'Location', value: 'Lucknow, India' },
+    { icon: <FaEnvelope size={24} />, label: 'Email', value: 'cjwrits@gmail.com', link: 'mailto:cjwrits@gmail.com', color: '#6366f1' },
+    { icon: <FaPhone size={24} />, label: 'Phone', value: '+91 78789 39493', link: 'tel:+917878939493', color: '#8b5cf6' },
+    { icon: <FaMapMarkerAlt size={24} />, label: 'Location', value: 'Lucknow, India', color: '#ec4899' },
   ];
 
   const socials = [
-    { icon: <FaGithub size={28} />, link: 'https://github.com/CjWrits', label: 'GitHub' },
-    { icon: <FaLinkedin size={28} />, link: 'https://linkedin.com/in/chirag-gupta-79019232b/', label: 'LinkedIn' },
+    { icon: <FaGithub size={28} />, link: 'https://github.com/CjWrits', label: 'GitHub', color: '#f59e0b' },
+    { icon: <FaLinkedin size={28} />, link: 'https://linkedin.com/in/chirag-gupta-79019232b/', label: 'LinkedIn', color: '#10b981' },
   ];
 
   return (
-    <section id="contact" ref={ref} className="min-h-screen flex items-center py-20 sm:py-32 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full relative z-10">
+    <section id="contact" ref={ref} className="min-h-screen flex items-center py-32 bg-[#0f0f23]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-12 sm:mb-16 lg:mb-20"
+          transition={{ type: 'spring', stiffness: 100 }}
+          className="text-6xl sm:text-8xl font-black text-white mb-20"
+          style={{ textShadow: '6px 6px 0px #6366f1' }}
         >
-          GET IN <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">TOUCH</span>
+          GET IN TOUCH
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="space-y-6 sm:space-y-8"
+            transition={{ delay: 0.2, type: 'spring' }}
+            className="space-y-8"
           >
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed">
-              Let's collaborate on your next project. I'm available for freelance work and full-time opportunities.
-            </p>
+            <div className="p-6 bg-[#6366f1] border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(139,92,246,0.5)]">
+              <p className="text-lg text-white leading-relaxed font-bold">
+                Let's collaborate on your next project. I'm available for freelance work and full-time opportunities.
+              </p>
+            </div>
 
             <div className="space-y-6">
               {contactInfo.map((info, i) => (
                 <motion.div
                   key={info.label}
-                  initial={{ opacity: 0, x: -20, rotateY: -45 }}
-                  animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
-                  transition={{ delay: 0.4 + i * 0.1 }}
-                  className="flex items-center gap-4 group"
-                  style={{ perspective: '1000px' }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.4 + i * 0.1, type: 'spring' }}
+                  className="flex items-center gap-4 p-4 border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(99,102,241,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(99,102,241,0.5)] transition-all duration-500"
+                  style={{ backgroundColor: info.color }}
+                  whileHover={{ scale: 1.04, y: -6, x: -2 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
-                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-full flex items-center justify-center text-orange-500 group-hover:scale-110 transition-all group-hover:rotate-12">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-20 rounded-full blur transition-opacity" />
-                    <div className="relative">{info.icon}</div>
+                  <div className="w-14 h-14 bg-white/10 border-4 border-white flex items-center justify-center text-white">
+                    {info.icon}
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs sm:text-sm">{info.label}</p>
+                    <p className="text-white text-sm font-bold">{info.label}</p>
                     {info.link ? (
-                      <a href={info.link} className="text-white text-base sm:text-lg hover:text-orange-500 transition-colors">
+                      <a href={info.link} className="text-white text-lg font-black hover:underline">
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-white text-base sm:text-lg">{info.value}</p>
+                      <p className="text-white text-lg font-black">{info.value}</p>
                     )}
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <div className="flex gap-4 pt-6 sm:pt-8">
+            <div className="flex gap-4 pt-8">
               {socials.map((social, i) => (
                 <motion.a
                   key={social.label}
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0, rotateZ: -180 }}
-                  animate={isInView ? { opacity: 1, scale: 1, rotateZ: 0 } : {}}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.7 + i * 0.1, type: 'spring', stiffness: 200 }}
-                  className="relative w-12 h-12 sm:w-14 sm:h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center text-white hover:text-orange-500 transition-all hover:scale-110 hover:rotate-12 overflow-hidden"
+                  className="w-16 h-16 border-4 border-white/20 flex items-center justify-center transition-all duration-500"
+                  style={{ backgroundColor: social.color }}
+                  whileHover={{ rotate: 360, scale: 1.2, y: -8 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 hover:opacity-10 transition-opacity" />
-                  <div className="relative">{social.icon}</div>
+                  <div className="text-white">{social.icon}</div>
                 </motion.a>
               ))}
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50, rotateY: 45 }}
-            animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="relative"
-            style={{ perspective: '1000px' }}
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.2, type: 'spring' }}
+            className="p-8 bg-[#8b5cf6] border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(236,72,153,0.5)]"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-2xl blur-xl animate-pulse" />
-            <div className="relative bg-gray-900/50 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-gray-800 hover:border-orange-500/50 transition-all hover:scale-105">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent" />
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Send a Message</h3>
-              <form className="space-y-4 sm:space-y-6">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none transition-all text-white text-sm sm:text-base hover:border-orange-500/50 focus:scale-105"
-                />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none transition-all text-white text-sm sm:text-base hover:border-orange-500/50 focus:scale-105"
-                />
-                <textarea
-                  placeholder="Your Message"
-                  rows={5}
-                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:border-orange-500 focus:outline-none resize-none transition-all text-white text-sm sm:text-base hover:border-orange-500/50 focus:scale-105"
-                />
-                <button
-                  type="submit"
-                  className="relative w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg hover:scale-105 transition-all font-bold text-black text-sm sm:text-base overflow-hidden group"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="relative">SEND MESSAGE</span>
-                </button>
-              </form>
-            </div>
+            <h3 className="text-3xl font-black text-white mb-6">Send a Message</h3>
+            <form className="space-y-6">
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] transition-all text-white font-bold placeholder:text-white/50"
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] transition-all text-white font-bold placeholder:text-white/50"
+              />
+              <textarea
+                placeholder="Your Message"
+                rows={5}
+                className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] resize-none transition-all text-white font-bold placeholder:text-white/50"
+              />
+              <motion.button
+                type="submit"
+                onClick={(e) => { e.preventDefault(); playSuccessSound(); }}
+                className="w-full px-8 py-4 bg-white border-4 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.5)] transition-all duration-500 font-black text-[#0f0f23] text-lg"
+                whileHover={{ scale: 1.05, y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              >
+                SEND MESSAGE
+              </motion.button>
+            </form>
           </motion.div>
         </div>
       </div>

@@ -8,57 +8,25 @@ gsap.registerPlugin(ScrollTrigger);
 const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const lineRef = useRef(null);
   const statsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const textRef = useRef(null);
 
   useEffect(() => {
-    if (lineRef.current) {
-      gsap.fromTo(lineRef.current,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          scrollTrigger: {
-            trigger: lineRef.current,
-            start: 'top 80%',
-            end: 'top 50%',
-            scrub: true,
-          },
-        }
-      );
-    }
-
-    if (textRef.current) {
-      gsap.fromTo(textRef.current,
-        { x: -100, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          scrollTrigger: {
-            trigger: textRef.current,
-            start: 'top 80%',
-            end: 'top 50%',
-            scrub: true,
-          },
-        }
-      );
-    }
-
     statsRef.current.forEach((stat, i) => {
       if (stat) {
         gsap.fromTo(stat,
-          { x: 100, opacity: 0, rotateY: 90 },
+          { x: 100, opacity: 0, scale: 0.8 },
           {
             x: 0,
             opacity: 1,
-            rotateY: 0,
+            scale: 1,
             scrollTrigger: {
               trigger: stat,
               start: 'top 85%',
               end: 'top 60%',
-              scrub: true,
+              scrub: 2,
             },
             delay: i * 0.1,
+            ease: 'power3.out',
           }
         );
       }
@@ -66,56 +34,77 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={ref} className="min-h-screen flex items-center py-32 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
+    <section id="about" ref={ref} className="min-h-screen flex items-center py-32 bg-[#1a1a3e] relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-24 h-24 border-4 border-[#6366f1]"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              transform: `rotate(${Math.random() * 45}deg)`,
+            }}
+          />
+        ))}
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: 'spring', stiffness: 100 }}
           className="mb-20"
         >
-          <div className="flex items-center gap-8 mb-8">
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white">ABOUT</h2>
-            <div ref={lineRef} className="flex-1 h-1 bg-gradient-to-r from-orange-500 via-yellow-500 to-transparent origin-left" />
-          </div>
+          <h2 className="text-6xl sm:text-8xl font-black text-white mb-4" style={{ textShadow: '6px 6px 0px #6366f1' }}>
+            ABOUT
+          </h2>
+          <div className="w-32 h-2 bg-[#6366f1]" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          <div ref={textRef} className="space-y-6 sm:space-y-8">
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed font-medium">
-              Specialized in building scalable web applications with the <span className="text-orange-500 font-bold">MERN stack</span>. From concept to deployment, I handle the complete development lifecycle.
-            </p>
-            
-            <div className="flex items-center gap-3 sm:gap-4 p-4 sm:p-6 bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/30">
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse flex-shrink-0" />
-              <p className="text-sm sm:text-base md:text-lg text-white font-bold">Currently available for new opportunities</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <motion.div 
+            initial={{ opacity: 0, x: -100 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.3, type: 'spring' }}
+            className="space-y-8"
+          >
+            <div className="p-6 bg-[#6366f1] border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(139,92,246,0.5)]">
+              <p className="text-lg text-white leading-relaxed font-bold">
+                Specialized in building scalable web applications with the <span className="text-[#fbbf24] font-black">MERN stack</span>. From concept to deployment, I handle the complete development lifecycle.
+              </p>
             </div>
-          </div>
-
-          <div className="space-y-6 sm:space-y-8">
-            {[
-              { label: 'EXPERIENCE', value: '2+ Years' },
-              { label: 'PROJECTS', value: '20+ Completed' },
-              { label: 'TECHNOLOGIES', value: '15+ Mastered' },
-            ].map((item, i) => (
-              <div
-                key={i}
-              ref={(el) => { statsRef.current[i] = el; }}
-                className="relative group transition-all duration-300"
-                style={{ perspective: '1000px' }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-                <div className="relative flex justify-between items-center border-b-2 border-gray-800 group-hover:border-orange-500 pb-4 sm:pb-6 transition-all group-hover:scale-105">
-                  <span className="text-gray-400 text-xs sm:text-sm md:text-base tracking-widest font-bold group-hover:text-orange-400 transition-colors">{item.label}</span>
-                  <span className="text-3xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform inline-block">
-                    {item.value}
-                  </span>
-                </div>
+            
+            <motion.div 
+              className="p-6 bg-[#8b5cf6] border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(236,72,153,0.5)]"
+              whileHover={{ scale: 1.05, rotate: -1 }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-4 h-4 bg-white animate-pulse" />
+                <p className="text-lg text-white font-black">Currently available for new opportunities</p>
               </div>
+            </motion.div>
+          </motion.div>
+
+          <div className="space-y-8">
+            {[
+              { label: 'EXPERIENCE', value: '2+ Years', bg: '#ec4899' },
+              { label: 'PROJECTS', value: '20+', bg: '#f59e0b' },
+              { label: 'TECHNOLOGIES', value: '15+', bg: '#10b981' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                ref={(el) => { statsRef.current[i] = el; }}
+                className="p-6 border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.3)] transition-all duration-500 cursor-pointer"
+                style={{ backgroundColor: item.bg }}
+                whileHover={{ scale: 1.06, y: -6, rotate: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              >
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-black tracking-widest text-white">{item.label}</span>
+                  <span className="text-5xl font-black text-white">{item.value}</span>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>

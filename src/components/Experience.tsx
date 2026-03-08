@@ -14,17 +14,18 @@ const Experience = () => {
     itemsRef.current.forEach((item, i) => {
       if (item) {
         gsap.fromTo(item,
-          { x: i % 2 === 0 ? -100 : 100, opacity: 0, rotateY: i % 2 === 0 ? -45 : 45 },
+          { x: i % 2 === 0 ? -150 : 150, opacity: 0, scale: 0.8 },
           {
             x: 0,
             opacity: 1,
-            rotateY: 0,
+            scale: 1,
             scrollTrigger: {
               trigger: item,
               start: 'top 80%',
               end: 'top 50%',
-              scrub: true,
+              scrub: 2,
             },
+            ease: 'power3.out',
           }
         );
       }
@@ -32,103 +33,55 @@ const Experience = () => {
   }, []);
 
   const timeline = [
-    {
-      date: 'JAN 2026 - MAR 2026',
-      title: 'CTO',
-      company: 'Zion Community',
-      desc: 'Led technical initiatives and mentored developers',
-    },
-    {
-      date: 'NOV 2025 - DEC 2025',
-      title: 'Senior Application Developer',
-      company: 'TradeCord',
-      desc: 'Developed full-stack applications using MERN stack',
-    },
-    {
-      date: '2025',
-      title: 'IBM Z Day 2025 – Security',
-      company: 'IBM',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'JavaScript Certification',
-      company: 'HackerRank',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'Responsive Web Design',
-      company: 'freeCodeCamp',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'Introduction to Cybersecurity',
-      company: 'Cisco',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'ISC2 Candidate',
-      company: 'ISC2',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'Linux Unhatched',
-      company: 'Cisco',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'C++ Programming',
-      company: 'Saylor Academy',
-      desc: 'Certification',
-    },
-    {
-      date: '2024',
-      title: 'Ethical Hacking Workshop',
-      company: 'Workshop',
-      desc: 'Certification',
-    },
+    { date: 'JAN 2026 - MAR 2026', title: 'CTO', company: 'Zion Community', desc: 'Led technical initiatives and mentored developers', color: '#6366f1' },
+    { date: 'NOV 2025 - DEC 2025', title: 'Senior Application Developer', company: 'TradeCord', desc: 'Developed full-stack applications using MERN stack', color: '#8b5cf6' },
+    { date: '2025', title: 'IBM Z Day 2025 – Security', company: 'IBM', desc: 'Certification', color: '#ec4899' },
+    { date: '2024', title: 'JavaScript Certification', company: 'HackerRank', desc: 'Certification', color: '#f59e0b' },
+    { date: '2024', title: 'Responsive Web Design', company: 'freeCodeCamp', desc: 'Certification', color: '#10b981' },
+    { date: '2024', title: 'Introduction to Cybersecurity', company: 'Cisco', desc: 'Certification', color: '#06b6d4' },
+    { date: '2024', title: 'ISC2 Candidate', company: 'ISC2', desc: 'Certification', color: '#6366f1' },
+    { date: '2024', title: 'Linux Unhatched', company: 'Cisco', desc: 'Certification', color: '#8b5cf6' },
+    { date: '2024', title: 'C++ Programming', company: 'Saylor Academy', desc: 'Certification', color: '#ec4899' },
+    { date: '2024', title: 'Ethical Hacking Workshop', company: 'Workshop', desc: 'Certification', color: '#f59e0b' },
   ];
 
   return (
-    <section id="timeline" ref={ref} className="min-h-screen flex items-center py-20 sm:py-32">
+    <section id="timeline" ref={ref} className="min-h-screen flex items-center py-32 bg-[#1a1a3e]">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 w-full">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-16 sm:mb-24 lg:mb-32"
+          transition={{ type: 'spring', stiffness: 100 }}
+          className="text-7xl font-black text-white mb-32"
+          style={{ textShadow: '6px 6px 0px #6366f1' }}
         >
           TIMELINE
         </motion.h2>
 
         <div className="relative">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500 via-yellow-500 to-transparent" />
-          <div className="md:hidden absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500 via-yellow-500 to-transparent" />
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#6366f1] via-[#8b5cf6] to-[#ec4899] hidden md:block" />
 
-          <div className="space-y-12 sm:space-y-16 md:space-y-24">
+          <div className="space-y-16">
             {timeline.map((item, i) => (
               <div
                 key={i}
-                ref={(el) => { itemsRef.current[i] = el; }}
-                className={`flex md:${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}
+                className={`flex ${i % 2 === 0 ? 'md:justify-start' : 'md:justify-end'}`}
               >
-                <div className={`w-full md:w-5/12 pl-12 md:pl-0 ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <div className="relative group" style={{ perspective: '1000px' }}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
-                    <div className="relative p-6 border border-gray-800/50 group-hover:border-orange-500 transition-all group-hover:scale-105 bg-black/30">
-                      <div className={`absolute top-2 -left-[2.6rem] md:top-4 md:${i % 2 === 0 ? '-right-[3.25rem] md:left-auto' : '-left-[3.25rem]'} w-3 h-3 md:w-4 md:h-4 bg-orange-500 rounded-full border-2 md:border-4 border-black animate-pulse`} />
-                      
-                      <p className="text-orange-500 text-xs sm:text-sm font-mono mb-2 group-hover:text-yellow-500 transition-colors">{item.date}</p>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 group-hover:scale-105 transition-transform inline-block">{item.title}</h3>
-                      <p className="text-sm sm:text-base text-gray-400 font-semibold mb-2 group-hover:text-orange-400 transition-colors">{item.company}</p>
-                      <p className="text-xs sm:text-sm text-gray-500 group-hover:text-gray-400 transition-colors">{item.desc}</p>
-                    </div>
+                <motion.div 
+                  ref={(el) => { itemsRef.current[i] = el; }}
+                  className={`w-full md:w-5/12 ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8 md:text-left'}`}
+                  whileHover={{ scale: 1.06, rotate: i % 2 === 0 ? -2 : 2, y: -6 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <div className="relative p-6 border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(99,102,241,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(99,102,241,0.5)] transition-all" style={{ backgroundColor: item.color }}>
+                    <div className={`absolute top-1/2 -translate-y-1/2 ${i % 2 === 0 ? 'md:-right-[2.65rem]' : 'md:-left-[2.65rem]'} w-6 h-6 bg-white border-4 border-[#0f0f23] hidden md:block rounded-full`} />
+                    
+                    <p className="text-white/80 text-sm font-black mb-2 tracking-wider">{item.date}</p>
+                    <h3 className="text-2xl font-black text-white mb-2">{item.title}</h3>
+                    <p className="text-white/90 font-bold mb-2">{item.company}</p>
+                    <p className="text-white/70 text-sm font-bold">{item.desc}</p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             ))}
           </div>

@@ -3,8 +3,8 @@ html {
 }
 
 body {
-  background: #0a0a0a;
-  color: #e0e0e0;
+  background: #0f0f23;
+  color: #e0e7ff;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -12,4 +12,19 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

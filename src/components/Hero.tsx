@@ -3,37 +3,59 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import BlinkingAsciiDots from './BlinkingAsciiDots';
+import { useSoundEffects } from '../hooks/useSoundEffects';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const containerRef = useRef(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const { playHoverSound, playClickSound } = useSoundEffects();
 
   useEffect(() => {
     const chars = textRef.current?.querySelectorAll('.char');
     if (chars) {
       gsap.fromTo(chars,
-        { opacity: 0, y: 50, rotateX: -90 },
-        { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.03, ease: 'back.out' }
+        { opacity: 0, y: 100, rotateX: -90, scale: 0.5 },
+        { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1.5, stagger: 0.04, ease: 'elastic.out(1, 0.6)' }
       );
     }
 
     gsap.to('.float', {
-      y: -20,
-      duration: 2,
+      y: -30,
+      duration: 3,
       repeat: -1,
       yoyo: true,
-      ease: 'power1.inOut',
+      ease: 'sine.inOut',
     });
   }, []);
 
   const name = 'CHIRAG    GUPTA';
 
   return (
-    <section ref={containerRef} className="relative h-screen flex items-center justify-center overflow-hidden">
-      <BlinkingAsciiDots backgroundColor="#0a0a0a" textColor="255, 107, 53" density={1.2} animationSpeed={0.5} removeWaveLine={true} />
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0f0f23] pt-20">
+      <div className="absolute inset-0 opacity-10">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-32 h-32 border-4 border-[#6366f1]"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              rotate: Math.random() * 45,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 10 + Math.random() * 10,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        ))}
+      </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-8 z-10">
         <div ref={textRef} className="mb-8 sm:mb-12">
@@ -41,12 +63,9 @@ const Hero = () => {
             {name.split('').map((char, i) => (
               <span
                 key={i}
-                className="char inline-block"
+                className="char inline-block text-white hover:text-[#6366f1] transition-colors cursor-default"
                 style={{
-                  background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd700 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  textShadow: '6px 6px 0px #8b5cf6',
                 }}
               >
                 {char === ' ' ? '\u00A0' : char}
@@ -56,65 +75,70 @@ const Hero = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1 }}
-          className="space-y-3 sm:space-y-4 mb-8 sm:mb-12"
+          transition={{ delay: 1.5, type: 'spring', stiffness: 50 }}
+          className="space-y-4 mb-12"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-px bg-gradient-to-r from-orange-500 to-transparent" />
-            <p className="text-base sm:text-xl text-gray-400 font-light tracking-widest">FULL-STACK DEVELOPER</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-px bg-gradient-to-r from-yellow-500 to-transparent" />
-            <p className="text-base sm:text-xl text-gray-400 font-light tracking-widest">AVAILABLE FOR WORK</p>
-          </div>
+          <motion.div 
+            className="inline-block px-6 py-3 bg-[#6366f1] border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(139,92,246,1)]"
+            whileHover={{ scale: 1.08, rotate: -2, y: -4 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          >
+            <p className="text-xl sm:text-2xl text-white font-black tracking-widest">FULL-STACK DEVELOPER</p>
+          </motion.div>
+          <motion.div 
+            className="inline-block px-6 py-3 bg-[#8b5cf6] border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(236,72,153,1)] ml-8"
+            whileHover={{ scale: 1.08, rotate: 2, y: -4 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          >
+            <p className="text-xl sm:text-2xl text-white font-black tracking-widest">AVAILABLE FOR WORK</p>
+          </motion.div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="flex gap-4 sm:gap-6 justify-center sm:justify-start"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 2, type: 'spring', stiffness: 200 }}
+          className="flex gap-6 justify-center sm:justify-start"
         >
-          <a
-            href="https://github.com/CjWrits"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative w-14 h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center transition-all overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <FaGithub size={24} className="relative z-10 text-white group-hover:text-black transition-colors" />
-          </a>
-          <a
-            href="https://linkedin.com/in/chirag-gupta-79019232b/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative w-14 h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center transition-all overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <FaLinkedin size={24} className="relative z-10 text-white group-hover:text-black transition-colors" />
-          </a>
-          <a
-            href="mailto:cjwrits@gmail.com"
-            className="group relative w-14 h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center transition-all overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <FaEnvelope size={24} className="relative z-10 text-white group-hover:text-black transition-colors" />
-          </a>
-          <a
-            href="tel:+917878939493"
-            className="group relative w-14 h-14 border-2 border-gray-700 hover:border-orange-500 rounded-full flex items-center justify-center transition-all overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <FaPhone size={24} className="relative z-10 text-white group-hover:text-black transition-colors" />
-          </a>
+          {[
+            { icon: FaGithub, href: 'https://github.com/CjWrits', color: '#6366f1' },
+            { icon: FaLinkedin, href: 'https://linkedin.com/in/chirag-gupta-79019232b/', color: '#8b5cf6' },
+            { icon: FaEnvelope, href: 'mailto:cjwrits@gmail.com', color: '#ec4899' },
+            { icon: FaPhone, href: 'tel:+917878939493', color: '#f59e0b' },
+          ].map((item, i) => (
+            <motion.a
+              key={i}
+              href={item.href}
+              target={item.icon !== FaEnvelope && item.icon !== FaPhone ? '_blank' : undefined}
+              rel={item.icon !== FaEnvelope && item.icon !== FaPhone ? 'noopener noreferrer' : undefined}
+              onMouseEnter={playHoverSound}
+              onClick={playClickSound}
+              className="w-16 h-16 border-4 border-white/20 flex items-center justify-center transition-all"
+              style={{ backgroundColor: item.color }}
+              whileHover={{ 
+                rotate: 360, 
+                scale: 1.15,
+                y: -8,
+                boxShadow: '8px 8px 0px 0px rgba(255,255,255,0.3)'
+              }}
+              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+            >
+              <item.icon size={28} className="text-white" />
+            </motion.a>
+          ))}
         </motion.div>
       </div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
-        <div className="w-px h-20 bg-gradient-to-b from-orange-500 to-transparent" />
-      </div>
+      <motion.div 
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 float"
+        animate={{ y: [0, 20, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="w-1 h-20 bg-[#6366f1]" />
+        <div className="w-4 h-4 bg-[#8b5cf6] border-2 border-white mx-auto -mt-2" />
+      </motion.div>
     </section>
   );
 };
