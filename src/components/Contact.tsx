@@ -6,7 +6,7 @@ import { useSoundEffects } from '../hooks/useSoundEffects';
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const { playHoverSound, playClickSound, playSuccessSound } = useSoundEffects();
+  const { playSuccessSound } = useSoundEffects();
 
   const contactInfo = [
     { icon: <FaEnvelope size={24} />, label: 'Email', value: 'cjwrits@gmail.com', link: 'mailto:cjwrits@gmail.com', color: '#6366f1' },
@@ -52,10 +52,9 @@ const Contact = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.4 + i * 0.1, type: 'spring' }}
+                  whileHover={{ scale: 1.04, y: -6, x: -2 }}
                   className="flex items-center gap-4 p-4 border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(99,102,241,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(99,102,241,0.5)] transition-all duration-500"
                   style={{ backgroundColor: info.color }}
-                  whileHover={{ scale: 1.04, y: -6, x: -2 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
                   <div className="w-14 h-14 bg-white/10 border-4 border-white flex items-center justify-center text-white">
                     {info.icon}
@@ -83,11 +82,10 @@ const Contact = () => {
                   rel="noopener noreferrer"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.7 + i * 0.1, type: 'spring', stiffness: 200 }}
+                  whileHover={{ rotate: 360, scale: 1.2, y: -8 }}
+                  transition={{ delay: 0.7 + i * 0.1, type: 'spring', stiffness: 300, damping: 15 }}
                   className="w-16 h-16 border-4 border-white/20 flex items-center justify-center transition-all duration-500"
                   style={{ backgroundColor: social.color }}
-                  whileHover={{ rotate: 360, scale: 1.2, y: -8 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                 >
                   <div className="text-white">{social.icon}</div>
                 </motion.a>

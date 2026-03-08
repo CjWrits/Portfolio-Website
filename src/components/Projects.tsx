@@ -40,12 +40,11 @@ const Projects = () => {
               key={project.title}
               initial={{ opacity: 0, y: 50, rotateX: -20 }}
               animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-              transition={{ delay: i * 0.1, type: 'spring', stiffness: 100 }}
               onMouseEnter={playHoverSound}
+              whileHover={{ scale: 1.06, y: -8, rotate: Math.random() > 0.5 ? 2 : -2 }}
+              transition={{ delay: i * 0.1, type: 'spring', stiffness: 300, damping: 20 }}
               className="group p-6 border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(99,102,241,0.3)] hover:shadow-[16px_16px_0px_0px_rgba(99,102,241,0.5)] transition-all duration-500"
               style={{ backgroundColor: project.color }}
-              whileHover={{ scale: 1.06, y: -8, rotate: Math.random() > 0.5 ? 2 : -2 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
               <div className="flex justify-between items-start mb-4">
                 <h3 className="text-2xl font-black text-white group-hover:scale-105 inline-block transition-transform">{project.title}</h3>
