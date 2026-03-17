@@ -15,17 +15,24 @@ const Contact = () => {
     e.preventDefault();
     if (!formRef.current) return;
     setStatus('sending');
+
+    const formData = new FormData(formRef.current);
     try {
-      await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      await emailjs.send(
+        'service_3js3g9t',
+        'template_fpsznkj',
+        {
+          from_name: formData.get('from_name'),
+          from_email: formData.get('from_email'),
+          message: formData.get('message'),
+        },
+        'uZ6nptVTW_pO2_G58'
       );
       playSuccessSound();
       setStatus('sent');
       formRef.current.reset();
-    } catch {
+    } catch (err) {
+      console.error('EmailJS error:', err);
       setStatus('error');
     }
   };
