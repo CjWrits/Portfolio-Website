@@ -100,25 +100,42 @@ const Contact = () => {
             className="p-8 bg-[#8b5cf6] border-4 border-white/20 shadow-[12px_12px_0px_0px_rgba(236,72,153,0.5)]"
           >
             <h3 className="text-3xl font-black text-white mb-6">Send a Message</h3>
-            <form className="space-y-6">
+            <form
+              className="space-y-6"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const name = (e.currentTarget.elements.namedItem('name') as HTMLInputElement).value;
+                const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
+                const message = (e.currentTarget.elements.namedItem('message') as HTMLTextAreaElement).value;
+                const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+                playSuccessSound();
+                window.location.href = `mailto:cjwrits@gmail.com?subject=${subject}&body=${body}`;
+              }}
+            >
               <input
+                name="name"
                 type="text"
                 placeholder="Your Name"
+                required
                 className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] transition-all text-white font-bold placeholder:text-white/50"
               />
               <input
+                name="email"
                 type="email"
                 placeholder="Your Email"
+                required
                 className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] transition-all text-white font-bold placeholder:text-white/50"
               />
               <textarea
+                name="message"
                 placeholder="Your Message"
                 rows={5}
+                required
                 className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] resize-none transition-all text-white font-bold placeholder:text-white/50"
               />
               <motion.button
                 type="submit"
-                onClick={(e) => { e.preventDefault(); playSuccessSound(); }}
                 className="w-full px-8 py-4 bg-white border-4 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.5)] transition-all duration-500 font-black text-[#0f0f23] text-lg"
                 whileHover={{ scale: 1.05, y: -4 }}
                 whileTap={{ scale: 0.98 }}
