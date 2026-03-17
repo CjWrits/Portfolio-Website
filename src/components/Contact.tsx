@@ -1,12 +1,34 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 import { useSoundEffects } from '../hooks/useSoundEffects';
 
 const Contact = () => {
   const ref = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const { playSuccessSound } = useSoundEffects();
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+    setStatus('sending');
+    try {
+      await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+      playSuccessSound();
+      setStatus('sent');
+      formRef.current.reset();
+    } catch {
+      setStatus('error');
+    }
+  };
 
   const contactInfo = [
     { icon: <FaEnvelope size={24} />, label: 'Email', value: 'cjwrits@gmail.com', link: 'mailto:cjwrits@gmail.com', color: '#6366f1' },
@@ -101,27 +123,19 @@ const Contact = () => {
           >
             <h3 className="text-3xl font-black text-white mb-6">Send a Message</h3>
             <form
+              ref={formRef}
+              onSubmit={handleSubmit}
               className="space-y-6"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const name = (e.currentTarget.elements.namedItem('name') as HTMLInputElement).value;
-                const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
-                const message = (e.currentTarget.elements.namedItem('message') as HTMLTextAreaElement).value;
-                const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
-                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-                playSuccessSound();
-                window.location.href = `mailto:cjwrits@gmail.com?subject=${subject}&body=${body}`;
-              }}
             >
               <input
-                name="name"
+                name="from_name"
                 type="text"
                 placeholder="Your Name"
                 required
                 className="w-full px-4 py-3 bg-white/10 border-4 border-white/20 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] transition-all text-white font-bold placeholder:text-white/50"
               />
               <input
-                name="email"
+                name="from_email"
                 type="email"
                 placeholder="Your Email"
                 required
@@ -136,12 +150,13 @@ const Contact = () => {
               />
               <motion.button
                 type="submit"
-                className="w-full px-8 py-4 bg-white border-4 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.5)] transition-all duration-500 font-black text-[#0f0f23] text-lg"
-                whileHover={{ scale: 1.05, y: -4 }}
+                disabled={status === 'sending'}
+                className="w-full px-8 py-4 bg-white border-4 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.3)] hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.5)] transition-all duration-500 font-black text-[#0f0f23] text-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                whileHover={{ scale: status === 'sending' ? 1 : 1.05, y: status === 'sending' ? 0 : -4 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
-                SEND MESSAGE
+                {status === 'sending' ? 'SENDING...' : status === 'sent' ? '✓ MESSAGE SENT!' : status === 'error' ? '✗ TRY AGAIN' : 'SEND MESSAGE'}
               </motion.button>
             </form>
           </motion.div>
