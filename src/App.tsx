@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Lenis from 'lenis';
 import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
@@ -10,8 +10,18 @@ import Projects from './components/Projects';
 import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import EasterEggs from './components/easterEggs/EasterEggs';
+import NotFound from './components/NotFound';
 
 function App() {
+  const [pathname, setPathname] = useState(() => window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => setPathname(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -31,8 +41,23 @@ function App() {
     };
   }, []);
 
+  // Check if current route is homepage
+  const isHome = pathname === '/' || pathname === '' || pathname.toLowerCase() === '/index.html';
+
+  if (!isHome) {
+    return (
+      <NotFound
+        onReturnHome={() => {
+          window.history.pushState({}, '', '/');
+          setPathname('/');
+        }}
+      />
+    );
+  }
+
   return (
     <div className="overflow-x-hidden">
+      <EasterEggs />
       <LoadingScreen />
       <Navbar />
       <Hero />
@@ -48,3 +73,4 @@ function App() {
 }
 
 export default App;
+
