@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaChevronDown } from 'react-icons/fa';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSoundEffects } from '../hooks/useSoundEffects';
@@ -20,20 +20,12 @@ const Hero = () => {
         { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1.5, stagger: 0.04, ease: 'elastic.out(1, 0.6)' }
       );
     }
-
-    gsap.to('.float', {
-      y: -30,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-    });
   }, []);
 
   const name = 'CHIRAG    GUPTA';
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0f0f23] pt-20">
+    <section id="home" ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0f0f23] pt-20">
       <div className="absolute inset-0 opacity-10">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -57,7 +49,7 @@ const Hero = () => {
         ))}
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 z-10 pb-16 sm:pb-0">
         <div ref={textRef} className="mb-6 sm:mb-8 md:mb-12">
           <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter mb-4 flex flex-wrap justify-center sm:justify-start">
             {name.split('').map((char, i) => (
@@ -131,14 +123,41 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      <motion.div 
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 float"
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+      {/* Sleek Modern Interactive Scroll Indicator */}
+      <motion.a 
+        href="#about"
+        onClick={playClickSound}
+        onMouseEnter={playHoverSound}
+        className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group z-20 select-none"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2.2 }}
       >
-        <div className="w-1 h-20 bg-[#6366f1]" />
-        <div className="w-4 h-4 bg-[#8b5cf6] border-2 border-white mx-auto -mt-2" />
-      </motion.div>
+        <span className="text-[10px] font-black tracking-widest text-[#a5b4fc] group-hover:text-[#ec4899] transition-colors uppercase">
+          SCROLL
+        </span>
+        <div className="w-6 h-10 border-2 border-[#6366f1] group-hover:border-[#ec4899] rounded-full p-1 flex justify-center transition-colors shadow-[0_0_15px_rgba(99,102,241,0.4)] bg-[#1a1a3e]/50 backdrop-blur-xs">
+          <motion.div
+            className="w-1.5 h-3 bg-gradient-to-b from-[#6366f1] to-[#ec4899] rounded-full"
+            animate={{
+              y: [0, 14, 0],
+              opacity: [1, 0.4, 1]
+            }}
+            transition={{
+              duration: 1.8,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          />
+        </div>
+        <motion.div
+          animate={{ y: [0, 4, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="text-[#6366f1] group-hover:text-[#ec4899] transition-colors"
+        >
+          <FaChevronDown size={12} />
+        </motion.div>
+      </motion.a>
     </section>
   );
 };

@@ -1,105 +1,118 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * FloatingDuck Easter Egg
  * 
- * Creates a tiny pixel-art/animated SVG duck that quietly walks across 
- * the bottom of the screen after the user has been on the site for ~60 seconds.
- * 
- * Requirements met:
- * - Very small and unobtrusive.
- * - Smooth walking/waddling animation.
- * - Appears only once per browsing session (persisted via sessionStorage).
- * - Doesn't block clicks or interact with page elements (pointer-events: none).
- * - Automatically disappears after walking off-screen.
- * - Respects prefers-reduced-motion: disables animation for users who prefer reduced motion.
+ * A cute pixel-style duck that occasionally waddles across the bottom of the screen.
+ * Clicking the duck displays a funny message bubble and plays a synth quack sound!
  */
 const FloatingDuck = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
+  const [quackMessage, setQuackMessage] = useState<string | null>(null);
+
+  const quackQuotes = [
+    "Quack! Keep coding, you're doing great! 🦆",
+    "Rubber duck debugging at your service! 🛠️",
+    "Fun fact: No bugs were harmed in the making of this site. 🐛",
+    "Quack! You found me! 🌟",
+    "Need help debugging? Talk to me! 💬"
+  ];
 
   useEffect(() => {
-    // 1. Respect prefers-reduced-motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    // Show duck after 45 seconds initial delay, then every 90 seconds
+    const initialTimer = setTimeout(() => {
+      spawnDuck();
+    }, 45000);
 
-    // 2. Only show once per browsing session
-    try {
-      const hasSeenDuck = sessionStorage.getItem('duck_easter_egg_seen');
-      if (hasSeenDuck) return;
-    } catch {
-      // Ignore storage errors in restricted contexts
-    }
+    const interval = setInterval(() => {
+      spawnDuck();
+    }, 90000);
 
-    // 3. Trigger after 60 seconds (60,000ms)
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 60000);
-
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+    };
   }, []);
 
-  const handleAnimationComplete = () => {
-    setIsVisible(false);
+  const spawnDuck = () => {
+    setDirection(Math.random() > 0.5 ? 'right' : 'left');
+    setIsVisible(true);
+    // Auto hide after walking animation finishes (15s)
+    setTimeout(() => {
+      setIsVisible(false);
+      setQuackMessage(null);
+    }, 15000);
+  };
+
+  const playQuackSound = () => {
     try {
-      sessionStorage.setItem('duck_easter_egg_seen', 'true');
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.15);
+
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.15);
     } catch {
-      // Fail silently
+      // AudioContext restriction fallback
     }
+  };
+
+  const handleDuckClick = () => {
+    playQuackSound();
+    const randomQuote = quackQuotes[Math.floor(Math.random() * quackQuotes.length)];
+    setQuackMessage(randomQuote);
+
+    setTimeout(() => {
+      setQuackMessage(null);
+    }, 4000);
   };
 
   if (!isVisible) return null;
 
   return (
-    <AnimatePresence>
+    <div className="fixed bottom-4 left-0 right-0 pointer-events-none z-50 overflow-hidden h-20">
       <motion.div
-        aria-hidden="true"
-        role="presentation"
-        className="fixed bottom-3 z-[9999] pointer-events-none select-none flex items-center gap-1.5 bg-[#1a1a3e]/90 border-2 border-[#6366f1] px-2.5 py-1 rounded-full shadow-[4px_4px_0px_0px_rgba(99,102,241,0.5)] backdrop-blur-sm"
-        initial={{ x: '-120px', y: 0 }}
-        animate={{
-          x: ['-120px', 'calc(100vw + 120px)'],
-        }}
-        transition={{
-          duration: 20,
-          ease: 'linear',
-        }}
-        onAnimationComplete={handleAnimationComplete}
+        initial={{ x: direction === 'right' ? '-10vw' : '110vw' }}
+        animate={{ x: direction === 'right' ? '110vw' : '-10vw' }}
+        transition={{ duration: 14, ease: 'linear' }}
+        className="pointer-events-auto cursor-pointer relative inline-block group"
+        onClick={handleDuckClick}
       >
-        {/* Animated Duck SVG with gentle leg and body waddle */}
-        <motion.div
-          animate={{
-            rotate: [0, -8, 8, -8, 0],
-            y: [0, -3, 0, -3, 0],
-          }}
-          transition={{
-            duration: 0.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          className="w-7 h-7 flex items-center justify-center filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
-        >
-          <svg viewBox="0 0 32 32" className="w-full h-full">
-            {/* Duck Body */}
-            <path d="M8 18 C8 12, 14 10, 20 10 C24 10, 28 12, 28 16 C28 22, 22 26, 14 26 C9 26, 8 22, 8 18 Z" fill="#FACC15" />
-            {/* Wing */}
-            <path d="M12 18 C12 16, 16 15, 19 17 C17 21, 14 22, 12 18 Z" fill="#EAB308" />
-            {/* Head */}
-            <circle cx="21" cy="11" r="6" fill="#FACC15" />
-            {/* Beak */}
-            <path d="M25 11 L31 12 L26 14 Z" fill="#F97316" />
-            {/* Eye */}
-            <circle cx="22" cy="10" r="1.2" fill="#0F0F23" />
-            {/* Feet */}
-            <path d="M14 26 L12 30 M18 26 L17 30" stroke="#F97316" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </motion.div>
-        
-        <span className="font-mono text-[10px] text-[#a5b4fc] tracking-wider font-bold">
-          quack! 🦆
-        </span>
+        {/* Tooltip Quote Bubble */}
+        <AnimatePresence>
+          {quackMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.8 }}
+              animate={{ opacity: 1, y: -45, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#1e1b4b] text-[#a5b4fc] text-xs font-bold px-3 py-1.5 rounded-xl border border-[#6366f1] shadow-lg"
+            >
+              {quackMessage}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#1e1b4b]" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Duck Icon Container */}
+        <div className={`text-3xl select-none transition-transform duration-300 group-hover:scale-125 ${direction === 'left' ? 'scale-x-[-1]' : ''}`}>
+          🦆
+        </div>
       </motion.div>
-    </AnimatePresence>
+    </div>
   );
 };
 

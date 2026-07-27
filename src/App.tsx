@@ -15,6 +15,8 @@ import NotFound from './components/NotFound';
 
 function App() {
   const [pathname, setPathname] = useState(() => window.location.pathname);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
     const handlePopState = () => setPathname(window.location.pathname);
@@ -41,6 +43,10 @@ function App() {
     };
   }, []);
 
+  const handleToggleFlip = () => {
+    setIsFlipped((prev) => !prev);
+  };
+
   // Check if current route is homepage
   const isHome = pathname === '/' || pathname === '' || pathname.toLowerCase() === '/index.html';
 
@@ -57,9 +63,19 @@ function App() {
 
   return (
     <div className="overflow-x-hidden">
-      <EasterEggs />
+      <EasterEggs
+        isCommandPaletteOpen={isCommandPaletteOpen}
+        onCloseCommandPalette={() => setIsCommandPaletteOpen(false)}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        isFlipped={isFlipped}
+        onToggleFlip={handleToggleFlip}
+      />
       <LoadingScreen />
-      <Navbar />
+      <Navbar
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onTriggerFlip={handleToggleFlip}
+        isFlipped={isFlipped}
+      />
       <Hero />
       <About />
       <Experience />
@@ -73,4 +89,3 @@ function App() {
 }
 
 export default App;
-
